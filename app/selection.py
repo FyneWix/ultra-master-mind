@@ -17,10 +17,10 @@ def extract_chromosomes(population_with_fitness):
     """
     return [chromosome for chromosome, fitness_value in population_with_fitness]
 
-def selection(population, TS, N, PM):
+def selection(population, SR, N, PM):
     """
     population: list of chromosomes
-    TS: selection rate
+    SR: selection rate
     N: size of the population
     PM: the mystery phrase
 
@@ -29,4 +29,4 @@ def selection(population, TS, N, PM):
     population_with_fitness = fitness_list(population, PM)
     sorted_population_with_fitness = sort_fitness_list(population_with_fitness)
     best_chromosomes = extract_chromosomes(sorted_population_with_fitness)
-    return best_chromosomes[:int(TS * N)]
+    return best_chromosomes[:int(SR * N)]
