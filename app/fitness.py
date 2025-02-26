@@ -21,4 +21,12 @@ def fitness_list(population, PM):
 
     return a list a tuples of the form (chromosome, fitness value)
     """
-    return [(chromosome, fitness(chromosome, PM)) for chromosome in population]
+    return [(chromosome, fitness_value(chromosome, PM)) for chromosome in population]
+
+def sort_fitness_list(population_with_fitness):
+    """
+    population_with_fitness: list of tuples of the form (chromosome, fitness value)
+
+    return a list of tuples sorted by fitness value in descending order
+    """
+    return sorted(population_with_fitness, key=lambda x: x[1], reverse=True)
