@@ -7,4 +7,11 @@ def extract_chromosomes(population_with_fitness):
     return [chromosome for chromosome, fitness_value in population_with_fitness]
 
 def selection(population, SR, N):
+    """
+    population: list of chromosomes
+    SR: selection rate
+    N: population size
+
+    return a list of chromosomes selected from the population
+    """
     return population[:int(SR * N)]

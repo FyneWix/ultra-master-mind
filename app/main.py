@@ -15,15 +15,10 @@ if __name__ == "__main__":
     print("The mystery phrase is: ", TARGET_PHRASE)
 
     # Constants for the game
-    ## amount of generations
-    GENERATIONS = 2
-    ## population size
+    GENERATIONS = 5000
     POP_SIZE = 10
-    ## mutation rate
     MUTATION_RATE = 0.5
-    ## selection rate
     SELECTION_RATE = 0.5
-    ## chromosome length
     CHROMOSOME_LENGTH = len(TARGET_PHRASE)
 
     # 1. Initialize the population
@@ -35,18 +30,40 @@ if __name__ == "__main__":
         # 2.1 Evaluation (fitness)
         # Calculate the fitness of each chromosome in the population
         fitness_values = fitness.fitness_list(population, TARGET_PHRASE)
-        print("Fitness values: ", fitness_values)
 
         # Sort the population by fitness
         sorted_fitness_list = fitness.sort_fitness_list(fitness_values)
-        print("Sorted fitness list: ", sorted_fitness_list)
 
         # Extract the chromosomes from the population
         chromosomes = selection.extract_chromosomes(sorted_fitness_list)
-        print("Chromosomes: ", chromosomes)
 
         # 2.2 Selection
         # Select the best chromosomes
         selected_chromosomes = selection.selection(chromosomes, SELECTION_RATE, POP_SIZE)
-        print("Selected chromosomes: ", selected_chromosomes)
+
+        # 2.3 Reproduction
+        while len(selected_chromosomes) < POP_SIZE:
+            child = reproduction.reproduction(selected_chromosomes)
+            selected_chromosomes.append(child)
+
+        # 2.4 Mutation
+        mutated_population = mutation.mutation(selected_chromosomes, MUTATION_RATE)
+
+        # Update the population
+        population = mutated_population
+
+        # Select the best chromosome
+        best_chromosome = population[0]
+
+        # Print the best chromosome every 50 generations
+        if (generation + 1) % 50 == 0:
+            print(f"Generation {generation + 1}: Best chromosome: {best_chromosome}")
+        
+        # Check if the best chromosome is the mystery phrase
+        if best_chromosome == TARGET_PHRASE:
+            print("The mystery phrase has been found!")
+            break
+
+    # Print the best chromosome
+    print("Best chromosome: ", best_chromosome)
 

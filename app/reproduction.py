@@ -1,6 +1,11 @@
 import random
 
 def reproduction(population):
+    """
+    population: list of chromosomes
+
+    return a new chromosome (child)
+    """
 
     # Chromosome length
     L = len(population[0])
@@ -16,16 +21,13 @@ def reproduction(population):
 
     return child
 
+
 def choose_two_parents(population):
-    # Mother
-    M = random.choice(population) 
-    m_index = population.index(M)
+    """
+    population: list of chromosomes
 
-    # Father
-    F = random.choice(population)
-    f_index = population.index(F)
-
-    if m_index == f_index:
-        return choose_two_parents(population)
-        
+    return two chromosomes (parents)
+    """
+    # Sélectionne deux parents différents
+    M, F = random.sample(population, 2)
     return M, F
