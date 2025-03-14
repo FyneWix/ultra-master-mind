@@ -43,21 +43,20 @@ def fitness_levenshtein(chromosome, PM):
     """
     return -Levenshtein.distance(chromosome, PM)
 
-def fitness_list(population, PM):
+def fitness_list(population, PM, fitness_func):
     """
     population: list of chromosomes
     PM: the mystery phrase
+    fitness_func: the fitness function to use
 
-    return a list a tuples of the form (chromosome, fitness value)
+    return a list of tuples of the form (chromosome, fitness value)
     """
-    return [(chromosome, fitness_sum(chromosome, PM)) for chromosome in population]
+    return [(chromosome, fitness_func(chromosome, PM)) for chromosome in population]
 
-def sort_fitness_list(population_with_fitness):
+def sort_fitness_list(fitness_values, reverse=True):
     """
-    population_with_fitness: list of tuples of the form (chromosome, fitness value)
+    fitness_values: list of tuples of the form (chromosome, fitness value)
 
-    return a list of tuples sorted by fitness value in descending order
+    return a list of tuples sorted by fitness value
     """
-    return sorted(population_with_fitness, key=lambda x: x[1], reverse=True)
-
-
+    return sorted(fitness_values, key=lambda x: x[1], reverse=True)

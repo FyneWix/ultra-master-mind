@@ -8,6 +8,31 @@ def get_input_phrase():
     m = str(input("Enter the mystery phrase: "))
     return m
 
+def choose_fitness_function():
+    """
+    Prompt the user to choose a fitness function.
+
+    return the chosen fitness function
+    """
+    print("Choose a fitness function:")
+    print("1. Sum Fitness")
+    print("2. Match Fitness")
+    print("3. Levenshtein Fitness")
+
+    choice = input("Enter the number corresponding to your choice: ")
+
+    if choice == '1':
+        return fitness.fitness_sum
+    elif choice == '2':
+        alpha = float(input("Enter the value of alpha for Match Fitness: "))
+        return lambda chromosome, PM: fitness.fitness_match(chromosome, PM, alpha)
+    elif choice == '3':
+        return fitness.fitness_levenshtein
+    else:
+        print("Invalid choice. Defaulting to Sum Fitness.")
+        return fitness_sum
+
+
 if __name__ == "__main__":
 
     # Get the mystery phrase
@@ -21,15 +46,18 @@ if __name__ == "__main__":
     SELECTION_RATE = 0.5
     CHROMOSOME_LENGTH = len(TARGET_PHRASE)
 
-    # 1. Initialize the population
+    # Choose a fitness function
+    fitness_function = choose_fitness_function()
+
+    # Initialize the population
     population = genesis.genesis(POP_SIZE, CHROMOSOME_LENGTH)
     print("Initial population: ", population)
 
-    # 2. Evolution
+    # Evolution
     for generation in range(GENERATIONS):
-        # 2.1 Evaluation (fitness)
+
         # Calculate the fitness of each chromosome in the population
-        fitness_values = fitness.fitness_list(population, TARGET_PHRASE)
+        fitness_values = fitness.fitness_list(population, TARGET_PHRASE, fitness_function)
 
         # Sort the population by fitness
         sorted_fitness_list = fitness.sort_fitness_list(fitness_values)
@@ -37,16 +65,15 @@ if __name__ == "__main__":
         # Extract the chromosomes from the population
         chromosomes = selection.extract_chromosomes(sorted_fitness_list)
 
-        # 2.2 Selection
         # Select the best chromosomes
         selected_chromosomes = selection.selection(chromosomes, SELECTION_RATE, POP_SIZE)
 
-        # 2.3 Reproduction
+        # Reproduction
         while len(selected_chromosomes) < POP_SIZE:
             child = reproduction.reproduction(selected_chromosomes)
             selected_chromosomes.append(child)
 
-        # 2.4 Mutation
+        # Mutation
         mutated_population = mutation.mutation(selected_chromosomes, MUTATION_RATE)
 
         # Update the population
