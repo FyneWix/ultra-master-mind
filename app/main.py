@@ -32,6 +32,17 @@ def choose_fitness_function():
         print("Invalid choice. Defaulting to Sum Fitness.")
         return fitness_sum
 
+def get_input_parameters():
+    """
+    Prompt the user to enter the parameters for the genetic algorithm.
+
+    return a tuple of the parameters
+    """
+    GENERATIONS = int(input("Enter the number of generations: "))
+    POP_SIZE = int(input("Enter the population size: "))
+    MUTATION_RATE = float(input("Enter the mutation rate: "))
+    SELECTION_RATE = float(input("Enter the selection rate: "))
+    return GENERATIONS, POP_SIZE, MUTATION_RATE, SELECTION_RATE
 
 if __name__ == "__main__":
 
@@ -40,11 +51,8 @@ if __name__ == "__main__":
     print("The mystery phrase is: ", TARGET_PHRASE)
 
     # Constants for the game
-    GENERATIONS = 5000
-    POP_SIZE = 10
-    MUTATION_RATE = 0.5
-    SELECTION_RATE = 0.5
     CHROMOSOME_LENGTH = len(TARGET_PHRASE)
+    GENERATIONS, POP_SIZE, MUTATION_RATE, SELECTION_RATE = get_input_parameters()
 
     # Choose a fitness function
     fitness_function = choose_fitness_function()
