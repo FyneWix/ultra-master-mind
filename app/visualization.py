@@ -3,13 +3,12 @@ import os
 
 def plot_fitness_evolution(generations, best_fitness_values, avg_fitness_values=None, title="Évolution de la fitness"):
     """
-    Trace l'évolution de la fitness en fonction des générations.
+    Draw a graph showing the evolution of fitness values over generations.
     
-    Args:
-        generations: Liste des numéros de génération
-        best_fitness_values: Liste des meilleures valeurs de fitness à chaque génération
-        avg_fitness_values: Liste optionnelle des valeurs moyennes de fitness à chaque génération
-        title: Titre du graphique
+    generations: List of generation numbers
+    best_fitness_values: List of best fitness values at each generation
+    avg_fitness_values: List of optional average fitness values at each generation
+    title: Title of the graph
     """
     # Create the 'figures' directory if it doesn't exist
     figures_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'figures')
