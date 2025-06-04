@@ -6,14 +6,22 @@ import mutation
 from visualization import plot_fitness_evolution
 
 def get_input_phrase():
+    """
+    Prompts the user to enter the mystery phrase.
+
+    Returns:
+        str: The mystery phrase entered by the user.
+    """
     m = str(input("Enter the mystery phrase: "))
     return m
 
 def choose_fitness_function():
     """
-    Prompt the user to choose a fitness function.
+    Prompts the user to choose a fitness function from a predefined list.
 
-    return the chosen fitness function
+    Returns:
+        function: The selected fitness function. Defaults to `fitness.fitness_sum`
+                  if the choice is invalid.
     """
     print("Choose a fitness function:")
     print("1. Sum Fitness")
@@ -35,9 +43,12 @@ def choose_fitness_function():
 
 def get_input_parameters():
     """
-    Prompt the user to enter the parameters for the genetic algorithm.
+    Prompts the user to enter the parameters for the genetic algorithm.
 
-    return a tuple of the parameters
+    Returns:
+        tuple: A tuple containing the number of generations (int),
+               population size (int), mutation rate (float), and
+               selection rate (float).
     """
     GENERATIONS = int(input("Enter the number of generations: "))
     POP_SIZE = int(input("Enter the population size: "))
@@ -47,13 +58,14 @@ def get_input_parameters():
 
 def calculate_average_fitness(fitness_values):
     """
-    Calculate the average fitness from a list of fitness values.
+    Calculates the average fitness from a list of (chromosome, fitness_value) tuples.
     
     Args:
-        fitness_values: Liste de tuples (chromosome, valeur de fitness)
+        fitness_values (list): A list of tuples, where each tuple is
+                               (chromosome, fitness_value).
     
     Returns:
-        La valeur moyenne de fitness
+        float: The average fitness value. Returns 0 if the list is empty.
     """
     if not fitness_values:
         return 0
@@ -114,7 +126,7 @@ if __name__ == "__main__":
         population = mutated_population
 
         # Select the best chromosome
-        best_chromosome = population[0]
+        best_chromosome = population[0] # Assumes population is sorted or best is at index 0
 
         # Print the best chromosome every 50 generations
         if (generation + 1) % 50 == 0:
@@ -123,6 +135,7 @@ if __name__ == "__main__":
         # Check if the best chromosome is the mystery phrase
         if best_chromosome == TARGET_PHRASE:
             print("The mystery phrase has been found!")
+            # Collect data for the final generation
             generation_numbers.append(generation + 1)
             fitness_values = fitness.fitness_list(population, TARGET_PHRASE, fitness_function)
             sorted_fitness_list = fitness.sort_fitness_list(fitness_values)
@@ -138,6 +151,5 @@ if __name__ == "__main__":
         generation_numbers, 
         best_fitness_values, 
         avg_fitness_values, 
-        f"Évolution de la fitness - Phrase cible: '{TARGET_PHRASE}'"
+        f"Fitness Evolution - Target Phrase: '{TARGET_PHRASE}'"
     )
-
